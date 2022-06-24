@@ -1,24 +1,47 @@
 {
     "name": "laravel/laravel",
-    "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "type": "project",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "require": {
         "php": "^8.0.2",
+        "bezhansalleh/filament-shield": "^1.1",
+        "doctrine/dbal": "^3.3",
+        "filament/filament": "^2.0",
+        "filament/spatie-laravel-media-library-plugin": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
+        "inlinestudio/forklift": "dev-main",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "laravel/vapor-cli": "^1.36",
+        "laravel/vapor-core": "^2.22",
+        "laravel/vapor-ui": "^1.5",
+        "livewire/livewire": "^2.10",
+        "maatwebsite/excel": "^3.1",
+        "rockett/weasyprint": "^6.1",
+        "spatie/laravel-medialibrary": "^10.0.0",
+        "spatie/laravel-permission": "^5.5.2",
+        "staudenmeir/eloquent-eager-limit": "^1.7"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6.7",
+        "barryvdh/laravel-ide-helper": "^2.12",
+        "ergebnis/composer-normalize": "^2.24",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "nunomaduro/larastan": "^1.0",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -31,13 +54,32 @@
             "Tests\\": "tests/"
         }
     },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./plugins/forklift"
+        }
+    ],
     "scripts": {
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -45,17 +87,5 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
