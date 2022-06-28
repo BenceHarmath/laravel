@@ -1,8 +1,5 @@
 init:
 	git config core.hooksPath .githooks
-	rm -rf node_modules
-	rm -rf vendor
-	rm -f bootstrap/cache/*.php
 	cp .env.example .env
 
 .PHONY: help

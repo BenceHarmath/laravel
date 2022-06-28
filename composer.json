@@ -14,7 +14,6 @@
         "filament/filament": "^2.0",
         "filament/spatie-laravel-media-library-plugin": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
-        "inlinestudio/forklift": "dev-main",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
@@ -67,12 +66,6 @@
             "dont-discover": []
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./plugins/forklift"
-        }
-    ],
     "scripts": {
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
