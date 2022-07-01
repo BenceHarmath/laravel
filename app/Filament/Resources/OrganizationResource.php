@@ -2,22 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContactResource\Pages;
-use App\Filament\Resources\ContactResource\RelationManagers;
-use App\Models\Contact;
+use App\Filament\Resources\OrganizationResource\Pages;
+use App\Filament\Resources\OrganizationResource\RelationManagers;
+use App\Models\Organization;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ContactResource extends Resource
+class OrganizationResource extends Resource
 {
-    protected static ?string $model = Contact::class;
+    protected static ?string $model = Organization::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -27,13 +25,9 @@ class ContactResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('account_id')
                     ->required(),
-                Forms\Components\TextInput::make('organization_id'),
-                Forms\Components\TextInput::make('first_name')
+                Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(25),
-                Forms\Components\TextInput::make('last_name')
-                    ->required()
-                    ->maxLength(25),
+                    ->maxLength(100),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->maxLength(50),
@@ -58,16 +52,14 @@ class ContactResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('account_id'),
-                Tables\Columns\TextColumn::make('organization_id'),
-                Tables\Columns\TextColumn::make('first_name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('last_name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('email')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('phone')->searchable(),
-                Tables\Columns\TextColumn::make('address')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('city')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('phone'),
+                Tables\Columns\TextColumn::make('address'),
+                Tables\Columns\TextColumn::make('city'),
                 Tables\Columns\TextColumn::make('region'),
                 Tables\Columns\TextColumn::make('country'),
-                Tables\Columns\TextColumn::make('postal_code')->searchable(),
+                Tables\Columns\TextColumn::make('postal_code'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -76,19 +68,7 @@ class ContactResource extends Resource
                     ->dateTime(),
             ])
             ->filters([
-                    //Filter::make('deleted_at')
-                    //->query(fn (Builder $query): Builder => $query->whereNull('deleted_at'))
-                    SelectFilter::make('deleted_at')
-                    ->options([
-                        'with-trashed' => 'With Trashed',
-                        'only-trashed' => 'Only Trashed',
-                    ])->query(function (Builder $query, array $data){
-                        $query->when($data['value'] === 'with-trashed', function(Builder $query){
-                            $query->withTrashed();
-                        })->when($data['value'] === 'only-trashed', function(Builder $query){
-                            $query->onlyTrashed();
-                    });
-                })
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -108,9 +88,9 @@ class ContactResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListContacts::route('/'),
-            'create' => Pages\CreateContact::route('/create'),
-            'edit' => Pages\EditContact::route('/{record}/edit'),
+            'index' => Pages\ListOrganizations::route('/'),
+            'create' => Pages\CreateOrganization::route('/create'),
+            'edit' => Pages\EditOrganization::route('/{record}/edit'),
         ];
     }    
 }
