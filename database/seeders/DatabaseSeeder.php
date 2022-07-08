@@ -6,6 +6,8 @@ use App\Models\Account;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Contact;
 use App\Models\Organization;
+use App\Models\Shop;
+use App\Models\ShopList;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -18,26 +20,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $account = Account::create(['name' => 'Acme Corporation']);
 
-        User::factory()->create([
-            'account_id' => $account->id,
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'secret',
-            'owner' => true,
-        ]);
-
-        User::factory(5)->create(['account_id' => $account->id]);
-
-        $organizations = Organization::factory(100)
-            ->create(['account_id' => $account->id]);
-
-        Contact::factory(100)
-            ->create(['account_id' => $account->id])
-            ->each(function ($contact) use ($organizations) {
-                $contact->update(['organization_id' => $organizations->random()->id]);
+        // Shop::factory(2)
+        //     ->create();
+        Shop::factory(2)
+            ->create()->each(function ($shop) {
+                ShopList::factory(rand(1,10))
+                    ->create();
             });
     }
 }
